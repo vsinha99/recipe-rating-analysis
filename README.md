@@ -5,7 +5,7 @@
 
 # Do Higher-Rated Recipes Have Different Nutritional Profiles?
 
-<p class="authors" markdown="1">**By [My Name] and [Partner Name]**</p>
+<p class="authors" markdown="1">**By Varun Sinha and Rishab Kolan**</p>
 
 <p class="badges"><span class="badge">UCSD DSC 80</span> <span class="badge">Final Project</span> <span class="badge badge-accent">Recipes &amp; Ratings</span></p>
 
