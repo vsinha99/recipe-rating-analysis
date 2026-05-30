@@ -10,6 +10,13 @@ plugins:
 # Hide the theme's "View on GitHub / Download" buttons in the (hidden) banner.
 show_downloads: false
 
+# GitHub Pages' built-in jekyll-readme-index plugin turns README.md into the
+# site's index.html. By default it SKIPS READMEs that contain YAML front matter,
+# which makes the homepage 404 even when the build succeeds. Opt in so our
+# (front-matter) README.md is used as the index.
+readme_index:
+  with_frontmatter: true
+
 # Apply the theme's default layout to every page, so README.md only needs an
 # empty front-matter block (keeps the repo's README page clean while still
 # letting Jekyll render it with the Cayman layout on GitHub Pages).
