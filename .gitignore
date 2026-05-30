@@ -1,0 +1,32 @@
+# This is the PUBLIC website repo — never publish raw data, notebooks, or private code.
+*.ipynb
+.ipynb_checkpoints/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.zip
+*.gz
+*.pkl
+*.joblib
+data/
+private/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Local Jekyll build artifacts
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+Gemfile.lock

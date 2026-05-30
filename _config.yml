@@ -1,0 +1,20 @@
+# --- Site metadata (used for the <title> tag, SEO, and social previews) ---
+title: "Do Higher-Rated Recipes Have Different Nutritional Profiles?"
+description: "A UCSD DSC 80 final project investigating whether a recipe's nutrition and complexity relate to the ratings it receives, using the Recipes & Ratings dataset."
+
+# --- Theme (non-default GitHub Pages theme, loaded via jekyll-remote-theme) ---
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+# Hide the theme's "View on GitHub / Download" buttons in the (hidden) banner.
+show_downloads: false
+
+# Apply the theme's default layout to every page, so README.md only needs an
+# empty front-matter block (keeps the repo's README page clean while still
+# letting Jekyll render it with the Cayman layout on GitHub Pages).
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
