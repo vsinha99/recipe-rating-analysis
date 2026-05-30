@@ -9,13 +9,13 @@
 
 <p class="badges"><span class="badge">UCSD DSC 80</span> <span class="badge">Final Project</span> <span class="badge badge-accent">Recipes &amp; Ratings</span></p>
 
-Ratings shape what millions of people decide to cook — but does a five-star recipe actually look different *under the hood*? This project pairs the **Recipes &amp; Ratings** dataset from Food.com with a full data-science workflow to ask whether a recipe's **nutrition** and **complexity** are related to how users rate it.
+This project looks at recipes from Food.com and the ratings people gave them. We want to find out whether a recipe's nutrition and complexity are related to how highly it is rated.
 
 </header>
 
 <div class="note" markdown="1">
 
-📝 **Checkpoint build.** The structure, narrative, and styling on this page are final. Every value marked <span class="todo-tag">TODO</span> is a deliberate placeholder that will be filled in directly from the project notebook. No p-values, model scores, table values, or conclusions have been fabricated.
+This page is a work in progress. Items marked TODO will be filled in once the analysis is complete. No results have been made up.
 
 </div>
 
@@ -23,33 +23,33 @@ Ratings shape what millions of people decide to cook — but does a five-star re
 
 ## Introduction
 
-This project uses the **Recipes &amp; Ratings** dataset from [Food.com](https://www.food.com), which combines recipe metadata — ingredients, steps, preparation time, and nutrition — with user-submitted star ratings.
+This project uses the Recipes & Ratings dataset from [Food.com](https://www.food.com). It includes recipe information such as ingredients, steps, preparation time, and nutrition, along with the star ratings users left.
 
-Our central question:
+Our main question:
 
-> **Are recipe characteristics — calories, nutrition, cooking time, number of ingredients, and number of steps — related to the ratings users give?**
+> Are recipe features like calories, nutrition, cooking time, number of ingredients, and number of steps related to the ratings users give?
 
-**Why this matters.** Ratings strongly influence what people choose to cook, yet a high rating may reflect more than taste alone — it can also track how indulgent, quick, or simple a recipe is. Understanding these relationships helps home cooks read between the stars and helps recipe platforms understand what a rating really signals.
+Ratings affect what people decide to cook, but a high rating may depend on more than taste. It could also be linked to how simple, quick, or rich a recipe is. Looking at these features helps show what a rating might reflect.
 
-The merged dataset contains <span class="todo-tag">TODO</span> rows after joining recipes with their ratings.
+The dataset has <span class="todo-tag">TODO</span> rows after the recipes and ratings are joined.
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Insert the final row count and note the unit of a row (e.g., *one row per recipe* after aggregation, or *one row per rating* before it). Add any extra columns the analysis ends up using.
+**TODO:** Confirm the number of rows and note what one row represents.
 
 </div>
 
-The columns most relevant to our question are described below.
+The columns most relevant to our question are listed below.
 
 | Column | Description |
 |---|---|
-| `rating` | A single user's star rating for a recipe, on a 1–5 scale. |
-| `average_rating` | The mean of all ratings a recipe received — our primary signal of how well-liked it is. |
-| `calories` | Calories (kcal) per serving, parsed from the first entry of the `nutrition` field. |
-| `nutrition` | A list `[calories, total fat, sugar, sodium, protein, saturated fat, carbohydrates]`; every value except calories is a percent of daily value (PDV). |
-| `minutes` | Reported preparation time, in minutes. |
-| `n_ingredients` | Number of ingredients the recipe requires. |
-| `n_steps` | Number of steps in the recipe's instructions. |
+| `rating` | A single user's star rating for a recipe, from 1 to 5. |
+| `average_rating` | The mean of all ratings a recipe received. This is our main measure of how well liked it is. |
+| `calories` | Calories per serving, taken from the first value in the `nutrition` field. |
+| `nutrition` | A list `[calories, total fat, sugar, sodium, protein, saturated fat, carbohydrates]`. Every value except calories is a percent of daily value (PDV). |
+| `minutes` | Reported preparation time in minutes. |
+| `n_ingredients` | Number of ingredients in the recipe. |
+| `n_steps` | Number of steps in the recipe. |
 
 </section>
 
@@ -57,17 +57,17 @@ The columns most relevant to our question are described below.
 
 ## Data Cleaning and Exploratory Data Analysis
 
-We cleaned the raw data so that each row reflects a single recipe with trustworthy, analysis-ready features. Our planned steps:
+We plan to clean the data so each row represents one recipe. The main steps:
 
-- **Handle missing ratings.** Replace ratings of `0` with `NaN`, since a `0` indicates the absence of a rating rather than a true score of zero.
-- **Extract nutrition.** Parse the `nutrition` string into its seven components and pull **`calories`** (and other nutrition values) into their own numeric columns.
-- **Create an average rating per recipe.** Group all ratings belonging to each recipe and take the mean to form **`average_rating`**.
-- **Build complexity features.** Confirm/derive **`n_ingredients`** (number of ingredients) and **`n_steps`** (number of steps) as integer counts.
-- **Define the prediction target.** Engineer a binary **`high_rating`** column: `True` when a recipe's `average_rating` is **≥ 4**, otherwise `False`.
+- **Handle missing ratings.** Replace ratings of `0` with `NaN`, since a `0` means there was no rating rather than a true score of zero.
+- **Extract nutrition.** Split the `nutrition` field into its seven parts and pull `calories` (and other values) into their own numeric columns.
+- **Average rating per recipe.** Group the ratings for each recipe and take the mean to create `average_rating`.
+- **Complexity features.** Set up `n_ingredients` and `n_steps` as integer counts.
+- **Prediction target.** Create a binary `high_rating` column that is `True` when a recipe's average rating is 4 or higher and `False` otherwise.
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Confirm the exact cleaning decisions actually used (e.g., outlier thresholds on `minutes`/`calories`, how recipes with no ratings are handled) and describe their effect on the data.
+**TODO:** Note any other cleaning steps used, such as outlier handling, and their effect on the data.
 
 </div>
 
@@ -75,9 +75,11 @@ We cleaned the raw data so that each row reflects a single recipe with trustwort
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Replace the skeleton below with the real `df.head()`. Tip: in the notebook run `print(df.head().to_markdown(index=False))` and paste the output here.
+**TODO:** Add the first few rows of the cleaned dataset.
 
 </div>
+
+<!-- Skeleton rows below; fill from df.head().to_markdown(index=False) output -->
 
 | `name` | `minutes` | `calories` | `n_ingredients` | `n_steps` | `average_rating` | `high_rating` |
 |---|---|---|---|---|---|---|
@@ -91,38 +93,44 @@ We cleaned the raw data so that each row reflects a single recipe with trustwort
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Replace the placeholder figure with a real Plotly univariate plot (e.g., the distribution of `calories`) exported from the notebook via `fig.write_html("assets/univariate-calories.html")`. Then write one or two sentences interpreting the trend.
+**TODO:** Add a Plotly histogram of calories and briefly describe the distribution.
 
 </div>
 
-<iframe src="assets/univariate-calories.html" width="800" height="600" frameborder="0"></iframe>
+<!-- Figure file: assets/univariate-calories.html -->
+
+<iframe src="assets/univariate-calories.html" width="800" height="300" frameborder="0"></iframe>
 
 ### Bivariate analysis
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Replace with a real Plotly bivariate plot (e.g., `calories` vs. `average_rating`, or calorie distributions split by high- vs. low-rated). Export with `fig.write_html("assets/bivariate-calories-rating.html")` and add a short interpretation.
+**TODO:** Add a Plotly plot of calories versus average rating and note any relationship.
 
 </div>
 
-<iframe src="assets/bivariate-calories-rating.html" width="800" height="600" frameborder="0"></iframe>
+<!-- Figure file: assets/bivariate-calories-rating.html -->
+
+<iframe src="assets/bivariate-calories-rating.html" width="800" height="300" frameborder="0"></iframe>
 
 ---
 
 ### Interesting aggregates
 
-We will compare the average nutrition and complexity of high- and low-rated recipes.
+We will compare the average nutrition and complexity of high and low rated recipes.
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Replace the skeleton below with a real grouped or pivot table (e.g., `df.groupby("high_rating")[["calories", "n_ingredients", "n_steps", "minutes"]].mean()`), then comment on any visible pattern.
+**TODO:** Add a grouped table comparing nutrition and complexity for high and low rated recipes, and note any pattern.
 
 </div>
 
+<!-- Suggested grouping: df.groupby("high_rating")[["calories", "n_ingredients", "n_steps", "minutes"]].mean() -->
+
 | `high_rating` | mean `calories` | mean `n_ingredients` | mean `n_steps` | mean `minutes` |
 |---|---|---|---|---|
-| `False` (avg &lt; 4) | … | … | … | … |
-| `True` (avg ≥ 4) | … | … | … | … |
+| `False` (below 4) | … | … | … | … |
+| `True` (4 or higher) | … | … | … | … |
 
 </section>
 
@@ -132,29 +140,29 @@ We will compare the average nutrition and complexity of high- and low-rated reci
 
 ### NMAR analysis
 
-We believe the missingness of `rating` is plausibly **NMAR** (Not Missing At Random). A user who strongly dislikes a recipe may simply never come back to leave a rating, which means the probability that a rating is missing depends on the **value of the rating itself** — exactly the condition that defines NMAR. Because the reason for missingness is tied to the unobserved value, no other column in the dataset can fully account for it.
+We think the missingness of `rating` could be NMAR (Not Missing At Random). Someone who dislikes a recipe may simply not leave a rating, so whether a rating is missing can depend on the rating itself. If that is the case, no other column can fully explain why it is missing.
 
 <div class="note" markdown="1">
 
-**Could it become MAR?** If we could collect additional behavioral data — for example, whether a user *viewed*, *saved*, or *abandoned* a recipe page without rating it — the missingness might be explained by those observed columns instead, which would make it **MAR** rather than NMAR.
+If we had more data, such as whether a user viewed or saved a recipe without rating it, the missingness might be explained by those columns instead. That would make it MAR rather than NMAR.
 
 </div>
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Finalize which column's missingness you analyze and refine the NMAR argument once you've inspected the data.
+**TODO:** Confirm which column's missingness is analyzed and finalize the NMAR discussion.
 
 </div>
 
 ### Missingness dependency (permutation tests)
 
-We will run permutation tests to see whether the missingness of one column depends on other columns.
+We will use permutation tests to check whether the missingness of one column depends on other columns.
 
-**Dependency found (likely MAR on that column):**
+**Dependency found:**
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Report a column whose value the missingness *does* depend on (e.g., the missingness of `rating` vs. `n_steps`). Insert the test statistic, p-value, significance level, and the conclusion that missingness **does depend** on this column.
+**TODO:** Report a column that the missingness of `rating` depends on, with the test statistic, p-value, and significance level.
 
 </div>
 
@@ -162,17 +170,19 @@ We will run permutation tests to see whether the missingness of one column depen
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Report a column whose value the missingness *does not* depend on. Insert the test statistic, p-value, and the conclusion that missingness **does not depend** on this column.
+**TODO:** Report a column that the missingness of `rating` does not depend on, with the test statistic and p-value.
 
 </div>
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Replace the placeholder figure with a real Plotly visualization related to missingness (e.g., the empirical distribution of the permuted test statistic with the observed value marked). Export it to `assets/missingness-permutation.html`.
+**TODO:** Add a Plotly figure for the permutation test.
 
 </div>
 
-<iframe src="assets/missingness-permutation.html" width="800" height="600" frameborder="0"></iframe>
+<!-- Figure file: assets/missingness-permutation.html -->
+
+<iframe src="assets/missingness-permutation.html" width="800" height="300" frameborder="0"></iframe>
 
 </section>
 
@@ -180,7 +190,7 @@ We will run permutation tests to see whether the missingness of one column depen
 
 ## Hypothesis Testing
 
-We test whether calorie content is associated with how recipes are rated. Here, **high-rated** means `average_rating` **≥ 4** and **low-rated** means `average_rating` **&lt; 4**.
+We test whether calorie content is related to how recipes are rated. Here, high-rated means an average rating of 4 or higher, and low-rated means an average rating below 4.
 
 <div class="note" markdown="1">
 
@@ -197,7 +207,7 @@ We test whether calorie content is associated with how recipes are rated. Here, 
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — State the conclusion using careful statistical language: based on the p-value relative to α, *we reject* or *we fail to reject* the null hypothesis. Note that a hypothesis test does **not** "prove" the alternative — it only provides evidence for or against the null.
+**TODO:** Add the conclusion. Based on the p-value and significance level, state whether we reject or fail to reject the null hypothesis.
 
 </div>
 
@@ -207,16 +217,16 @@ We test whether calorie content is associated with how recipes are rated. Here, 
 
 ## Framing a Prediction Problem
 
-- **Prediction problem:** predict whether a recipe is **high-rated**.
+- **Prediction problem:** predict whether a recipe is high-rated.
 - **Type:** binary classification.
-- **Response variable:** `high_rating`, created from whether `average_rating` is at least 4. We chose this because it directly answers our question — whether a recipe's measurable characteristics anticipate strong reception.
-- **Evaluation metrics:** **accuracy** and **F1-score**. We report F1 alongside accuracy because the high-rated and low-rated classes are likely **imbalanced**; with skewed classes, accuracy can look strong simply by predicting the majority class, whereas F1 balances precision and recall.
+- **Response variable:** `high_rating`, based on whether the average rating is 4 or higher. This matches our question about whether recipe features relate to ratings.
+- **Evaluation metrics:** accuracy and F1-score. We report F1 along with accuracy because the high-rated and low-rated classes are likely imbalanced. With imbalanced classes, accuracy can look high just by predicting the majority class, while F1 balances precision and recall.
 
-**Information available at prediction time.** To avoid leakage, we use only features that would be known **before** any rating exists — recipe properties like `calories`, `minutes`, `n_ingredients`, and `n_steps`. We do **not** use `rating` or `average_rating` (or anything derived from them) as inputs, since those are unknown at the moment a recipe is published.
+To avoid leakage, we only use features that are known before any rating exists, such as `calories`, `minutes`, `n_ingredients`, and `n_steps`. We do not use `rating` or `average_rating` as inputs, since those are not known when a recipe is first posted.
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — List the exact feature set used as model inputs once it is finalized.
+**TODO:** List the exact features used by the model.
 
 </div>
 
@@ -226,9 +236,7 @@ We test whether calorie content is associated with how recipes are rated. Here, 
 
 ## Baseline Model
 
-Our baseline uses at least two simple, original features — for example **`calories`** and **`n_ingredients`** — both of which are **quantitative**. The whole workflow (any preprocessing plus the estimator) is implemented inside a single scikit-learn **`Pipeline`** so it can be reproduced and fairly compared against the final model. The baseline is intentionally simple so the final model has a meaningful comparison point.
-
-The baseline will use **Logistic Regression** or a **Decision Tree Classifier**.
+The baseline model uses at least two simple features from the original data, such as `calories` and `n_ingredients`. Both are quantitative. The whole process, including any preprocessing and the model, is built in a single scikit-learn `Pipeline`. The baseline is kept simple so the final model has something to compare against. It will use either Logistic Regression or a Decision Tree Classifier.
 
 - **Features used:** <span class="todo-tag">TODO</span>
 - **Quantitative features:** <span class="todo-tag">TODO</span>
@@ -242,7 +250,7 @@ The baseline will use **Logistic Regression** or a **Decision Tree Classifier**.
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — Assess whether the baseline is "good." Comment on its accuracy and F1 relative to a naive majority-class predictor, and explain what its errors suggest before moving to the final model.
+**TODO:** Note whether the baseline performs well, compared with a simple majority-class prediction.
 
 </div>
 
@@ -252,17 +260,17 @@ The baseline will use **Logistic Regression** or a **Decision Tree Classifier**.
 
 ## Final Model
 
-The final model improves on the baseline by adding at least **two engineered features** and (likely) a stronger estimator. Candidate engineered features include:
+The final model adds at least two engineered features and likely a stronger model. Possible engineered features:
 
-- **Calories per ingredient** (`calories / n_ingredients`)
-- **Recipe complexity score** (e.g., combining `n_steps` and `n_ingredients`)
-- **Minutes per step** (`minutes / n_steps`)
-- **Number of steps** (`n_steps`)
-- **Nutrition-based features** (e.g., sugar or fat as a share of calories)
+- Calories per ingredient (`calories / n_ingredients`)
+- A recipe complexity score (for example, combining `n_steps` and `n_ingredients`)
+- Minutes per step (`minutes / n_steps`)
+- Number of steps (`n_steps`)
+- Nutrition based features (for example, sugar or fat as a share of calories)
 
-**Why these features (not just accuracy-chasing).** Each one reflects something real about the *data-generating process* — how a recipe is actually written and cooked. Calories per ingredient separates rich, indulgent recipes from light ones independent of length; minutes per step captures how demanding each instruction is; a complexity score reflects the effort a cook must invest. These are mechanisms that could plausibly shape a cook's experience — and therefore their rating — rather than coincidental correlations.
+These features describe real properties of a recipe. Calories per ingredient separates rich recipes from lighter ones. Minutes per step reflects how involved each step is. A complexity score reflects how much work a recipe takes. We choose them because they relate to the data, not only because they might raise the score.
 
-We will try a **Random Forest Classifier** (or another stronger model) and tune it with **`GridSearchCV`** or a careful manual hyperparameter search.
+We will try a Random Forest Classifier or another stronger model, and tune it with GridSearchCV or a manual search.
 
 - **Final selected model:** <span class="todo-tag">TODO</span>
 - **Engineered features added:** <span class="todo-tag">TODO</span>
@@ -274,7 +282,7 @@ We will try a **Random Forest Classifier** (or another stronger model) and tune 
 
 <div class="note" markdown="1">
 
-**Fair comparison.** The final model and the baseline must be evaluated on the **same test set** so the improvement reflects modeling choices rather than a different split.
+The final model and the baseline are evaluated on the same test set so the comparison is fair.
 
 </div>
 
@@ -284,10 +292,10 @@ We will try a **Random Forest Classifier** (or another stronger model) and tune 
 
 ## Fairness Analysis
 
-We ask whether the final model performs equally well for simple and complex recipes.
+We check whether the final model performs about equally well for simple and complex recipes.
 
-- **Group X:** simpler recipes (e.g., recipes with **fewer** ingredients).
-- **Group Y:** more complex recipes (e.g., recipes with **more** ingredients).
+- **Group X:** simpler recipes (for example, recipes with fewer ingredients).
+- **Group Y:** more complex recipes (for example, recipes with more ingredients).
 - **Evaluation metric:** F1-score (or accuracy).
 - **Test statistic:** the difference in model performance between the two groups.
 
@@ -304,11 +312,13 @@ We ask whether the final model performs equally well for simple and complex reci
 
 <div class="todo" markdown="1">
 
-**🚧 TODO** — State the conclusion with careful language (*we reject* / *we fail to reject* the null), and optionally replace the figure below with a real permutation-test visualization exported to `assets/fairness-permutation.html`.
+**TODO:** Add the conclusion, stating whether we reject or fail to reject the null hypothesis. Add a Plotly figure for the fairness permutation test.
 
 </div>
 
-<iframe src="assets/fairness-permutation.html" width="800" height="600" frameborder="0"></iframe>
+<!-- Figure file: assets/fairness-permutation.html -->
+
+<iframe src="assets/fairness-permutation.html" width="800" height="300" frameborder="0"></iframe>
 
 </section>
 
@@ -318,8 +328,8 @@ We ask whether the final model performs equally well for simple and complex reci
 
 <div class="checklist" markdown="1">
 
-- [ ] Complete hypothesis test and insert observed statistic / p-value
-- [ ] Train baseline model and insert performance
+- [ ] Complete hypothesis test and add observed statistic and p-value
+- [ ] Train baseline model and add performance
 - [ ] Add cleaned DataFrame table
 - [ ] Add Plotly univariate visualization
 - [ ] Add Plotly bivariate visualization
@@ -332,4 +342,4 @@ We ask whether the final model performs equally well for simple and complex reci
 
 </section>
 
-<p class="footnote-tip"><em>All values marked TODO are placeholders and will be replaced with real results once the project notebook is finalized. Built with Jekyll and the Cayman theme.</em></p>
+<p class="footnote-tip"><em>TODO items will be filled in once the analysis is complete.</em></p>
