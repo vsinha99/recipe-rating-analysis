@@ -97,6 +97,15 @@ a:hover { color: var(--brand-500); text-decoration: underline; }
 .hero strong { color: #ffffff; }
 .hero .authors { font-size: 1.05rem; }
 .hero .badges { margin: 1rem 0 .25rem; }
+/* Links sit on the dark gradient, so the default dark-teal link color is
+   nearly invisible — use a bright accent with an underline instead. */
+.hero a {
+  color: #fcd34d;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.hero a:hover { color: #ffffff; }
 
 /* ---------- Badges ---------- */
 .badge {
